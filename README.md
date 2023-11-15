@@ -1,6 +1,8 @@
 # Multi Modal(Face, Body) Data Extract Module
 
 **피험자의 `Body Pose`, `Face Pose`, `Facial emotion recogntion` 값을 추출하는 프로그램**
+> **Git 폴더 이름**: MultiModalData </br>
+> **Local 폴더 이름** : multi_modal 👉🏻 [Downloads](https://drive.google.com/file/d/1tJFk0t0dzGoA-30rauG4GkaGWCaSa7AH/view?usp=sharing)
 
 #### 가상 환경 구축
 
