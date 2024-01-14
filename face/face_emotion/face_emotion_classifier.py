@@ -112,7 +112,9 @@ if __name__ == "__main__":
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    output_file = output_path + clip_name.split('/')[-1] + "_emotion_predictions.csv"
+    os.chdir(output_path)
+
+    output_file = clip_name.split('/')[-1] + "_emotion_predictions.csv"
     file = open(output_file, 'w', encoding="utf-8", newline='')
     writer = csv.writer(file)
 
