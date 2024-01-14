@@ -42,12 +42,12 @@
    ```
 
 2. **`setting.py`** 실행 
-  - **옵션**에 맞게 실행하면 된다. 
+  - **옵션**에 맞게 실행하면 된다.
     
-  ```bash
-  ~\MultiModal\MultiModal_Model> python setting.py -group_name <group_name> -option <option>
-  ```
-
+    ```bash
+     ~\MultiModal\MultiModal_Model> python setting.py -group_name <group_name> -option <option>
+     ```
+    
 **[Option 설명]**
 
 - `-group_name` :  그룹명 입력 (ex - `-group_name A`) **⭐필수 입력⭐**
