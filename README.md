@@ -1,46 +1,39 @@
 # Multi Modal(Face, Body) Data Extract Module
 
-**피험자의 `Body Pose`, `Face Pose`, `Facial emotion recogntion` 값을 추출하는 프로그램**
-> **GitHub 폴더 이름**: MultiModalData 👉🏻 [Downloads](https://github.com/JeongEunBae/MultiModalData) </br>
-> **Local 폴더 이름** : multi_modal 👉🏻 [Downloads](https://drive.google.com/file/d/1tJFk0t0dzGoA-30rauG4GkaGWCaSa7AH/view?usp=sharing)
+**피험자의 `Body(body pose)`, `Face(face landmarker, rotation, emotion)`의 Feature 값을 추출하는 프로그램**
+> **GitHub 폴더 이름**: MultiModal 👉🏻 [Downloads](https://github.com/JeongEunBae/MultiModal) </br>
+> **Local 폴더 이름** : MultiModal 👉🏻 [Downloads](https://drive.google.com/file/d/1tJFk0t0dzGoA-30rauG4GkaGWCaSa7AH/view?usp=sharing)
 
-#### 가상 환경 구축
+#### 가상 환경 구축 
+> Tensorflow 버전은 CUDA 버전과 모두 맞추었다고 가정한다.
+> Torch환경도 CUDA 버전과 모두 맞추었다고 가정한다.
 
-1. **Anaconda 설치**
-   
-   - [Anaconda 홈페이지]([Free Download | Anaconda](https://www.anaconda.com/download#Downloads)) 방문해서 **Download** 버튼 클릭
-   
-   ![](./README_IMG/Anaconda.png)
-
-2. **Anaconda Prompt 실행**
-   
-   ![](./README_IMG/Anaconda_prompt.png)
-
-3. **가상환경 생성 및 접속**
-   
-   - Python은 **3.10버전**으로 지정하여 가상환경을 생성한다. 
-     
-     >  <u>MediaPipe : version 3.8 - 3.11을 지원하기 때문에 해당 버전 내에서만 가능</u>
-   
-   ```bash
-   > conda create --name <가상환경이름> python=3.10
-   ```
-   
-   - 생성이 완료 되었다면, 가상환경을 **활성화**해준다.
-   
-   ```bash
-   > conda activate <가상환경이름>
-   ```
-
-4. **Software 환경 구축**
-   
+1. **전체 환경 구축**
    - **`requirement.txt`** 파일이 있는 디렉토리 내에서 아래와 같은 명령어로 **패키지를 설치한다.**
    
    ```bash
-   ~\MultiModalData> pip install -r requirement.txt
+   ~\MultiModal> pip install -r requirement.txt
    ```
 
+2. **추가 환경 구축**
+   - 딥러닝 기반 Face Rotation 값을 추출하는 모델을 사용하기 위해 추가로 환경을 구축한다. (기존 모델 👉🏻 [References](https://github.com/thohemp/6drepnet)) 
+   - **`requirement.txt`** 파일이 있는 디렉토리 내에서 아래와 같은 명령어로 **패키지를 설치한다.** 
+   
+   ```bash
+   ~\MultiModal> cd face/face_rotation
+   ~\MultiModal\face\face_rotation> pip install -r requirement.txt
+    ~\MultiModal\face\face_rotation> pip3 install sixdrepnet # 모델 다운로드
+   ```
 ---
+
+#### 데이터 추출 
+**[데이터셋 위치]** : **/body** 폴더 내 비디오 파일이 있으면 됩니다.
+
+**[결과파일 위치]** : 
+
+- `좌표 데이터 파일(excel)` : **results/body** 폴더 내 
+
+- `landmark된 영상 파일(video)` : **dataset/body** 폴더 내
 
 #### 📌 Body Pose 데이터 추출
 
