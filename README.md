@@ -5,9 +5,9 @@
 > **Local 폴더 이름** : MultiModal_Model 👉🏻 [Downloads](https://drive.google.com/file/d/1tJFk0t0dzGoA-30rauG4GkaGWCaSa7AH/view?usp=sharing)
 
 #### 가상 환경 구축 
-> Tensorflow 버전은 CUDA 버전과 모두 맞추었다고 가정한다.
-> Torch환경도 CUDA 버전과 모두 맞추었다고 가정한다.
-> MultiModal 폴더를 만들었다고 가정한다.
+> - Tensorflow 버전은 CUDA 버전과 모두 맞추었다고 가정한다.
+> - Torch환경도 CUDA 버전과 모두 맞추었다고 가정한다. **참고** 👉🏻 [CUDA 버전에 맞는 환경 구축 방법](https://velog.io/@jeongeunbae/CUDA%EB%B2%84%EC%A0%84%EC%97%90-%EB%A7%9E%EB%8A%94-Tensorflow-Pytorch-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0) </br>
+> - MultiModal 폴더를 만들었다고 가정한다.
 
 1. **전체 환경 구축**
    - **`requirement.txt`** 파일이 있는 디렉토리 내에서 아래와 같은 명령어로 **패키지를 설치한다.**
