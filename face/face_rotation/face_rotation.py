@@ -27,11 +27,11 @@ fps = cap.get(cv2.CAP_PROP_FPS)
 fourcc = cv2.VideoWriter_fourcc(*'DIVX')
 
 outvideo_path = clip_name.split('/')
-output_path = '\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:-1])
+output_path = '\\'.join(outvideo_path[:3] + ["Data_Results"] + [outvideo_path[4]] + ["Face_Rotation"] + outvideo_path[5:-1])
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 
-out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:]) + '_landmark.mp4', fourcc, fps, (640, 360))
+out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results"] + [outvideo_path[4]] + ["Face_Rotation"] + outvideo_path[5:]) + '_rotation.mp4', fourcc, fps, (640, 360))
 
 while cap.isOpened():
     # Read a frame from the video
@@ -58,7 +58,7 @@ import pandas as pd
 
 face_rotation = ["Yaw", "Pitch", "Roll"]
 
-output_path = "../../results/face/face_rotation"
+output_path = f"../../results/face/face_rotation/{outvideo_path[5]}"
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 os.chdir(output_path)

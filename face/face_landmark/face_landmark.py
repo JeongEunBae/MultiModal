@@ -110,15 +110,18 @@ timestamp = 0
 fourcc = cv2.VideoWriter_fourcc(*'DIVX')
 
 outvideo_path = clip_name.split('/')
-output_path = '\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:-1])
+output_path = '\\'.join(outvideo_path[:3] + ["Data_Results"] + [outvideo_path[4]] + ["Face_Landmark"] + outvideo_path[5:-1])
+print(output_path)
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 
-out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:]) + '_landmark.mp4', fourcc, fps, (640, 360))
+out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results"] + [outvideo_path[4]] + ["Face_Landmark"] + outvideo_path[5:]) + '_landmark.mp4', fourcc, fps, (640, 360))
 
 # 비디오 프레임 별 얼굴 Detection를 수행하는 반복문
+timestamp = 0
 while cap.isOpened():
   success, image = cap.read()
+  timestamp += 1
 
   if not success:
     print("Video processing completed or error occurred")
@@ -144,7 +147,7 @@ arr = np.array(landmark_save[0])
 import pandas as pd
 face = pd.read_csv("face_point_name.csv",header=None).iloc[:,0].to_list()
 
-output_path = "../../results/face/face_landmark"
+output_path = f"../../results/face/face_landmark/{outvideo_path[5]}"
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 os.chdir(output_path)

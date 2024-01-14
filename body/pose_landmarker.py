@@ -95,11 +95,11 @@ timestamp = 0
 fourcc = cv2.VideoWriter_fourcc(*'DIVX') # 비디오 코덱 설정
 
 outvideo_path = clip_name.split('/')
-output_path = '\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:-1])
+output_path = '\\'.join(outvideo_path[:3] + ["Data_Results", "Body"] + outvideo_path[5:-1])
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 
-out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:]) + '_pose.mp4', fourcc, fps, (640, 720)) # 박스 크기 조절 필요 (resize 후)
+out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results", "Body"] + outvideo_path[5:]) + '_pose.mp4', fourcc, fps, (640, 720)) # 박스 크기 조절 필요 (resize 후)
  
 timestamp = 0
 while cap.isOpened():
@@ -132,7 +132,7 @@ out.release()
 import pandas as pd
 joints = pd.read_csv("joint_name.csv",header=None).iloc[:,0].to_list()
 
-output_path = "../results/body/"
+output_path = f"../results/body/{outvideo_path[5]}"
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 os.chdir(output_path)
