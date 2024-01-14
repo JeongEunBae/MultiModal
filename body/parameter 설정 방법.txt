@@ -1,11 +1,11 @@
-탐지하고 싶은 사람이 1명 일 경우
+탐지하고 싶은 사람이 1명 일 경우 추천 (마음대로 설정 가능)
 num_poses = 1
 min_pose_detection_confidence = 0.4
 min_pose_presence_confidence = 0.2
 min_tracking_confidence = 0.9
 
 --------------------------
-탐지하고 싶은 사람이 2명 일 경우
+탐지하고 싶은 사람이 2명 일 경우 추천 (마음대로 설정 가능)
 num_poses = 2
 min_pose_detection_confidence = 0.4
 min_pose_presence_confidence = 0.2

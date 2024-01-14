@@ -10,3 +10,7 @@ right ear.x
 right ear.y
 left ear.x
 left ear.y
+box_origin.x
+box_origin.y
+box.width
+box.height

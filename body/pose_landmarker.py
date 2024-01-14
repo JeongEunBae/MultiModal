@@ -15,7 +15,7 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
 # landmarks 저장 리스트 초기화
-landmark_save = [[], []]
+landmark_save = []
 
 # RGB 이미지 위에 포즈 랜드마크를 그리는 함수
 def draw_landmarks_on_image(rgb_image, detection_result):
@@ -61,10 +61,10 @@ if len(sys.argv) < 1:
 # 인자 값 설정 (없으면 기본 값 설정)
 parser = argparse.ArgumentParser()
 parser.add_argument('-clip_name', help=' : Please set the clip name')
-parser.add_argument('-num_poses', default = 2)
+parser.add_argument('-num_poses', default = 1)
 parser.add_argument('-min_pose_detection_confidence', default = 0.4)
 parser.add_argument('-min_pose_presence_confidence', default = 0.2)
-parser.add_argument('-min_tracking_confidence', default = 0.3)
+parser.add_argument('-min_tracking_confidence', default = 0.2)
 args = parser.parse_args()
 
 clip_name = args.clip_name[:-4]
@@ -72,6 +72,8 @@ num_poses = int(args.num_poses)
 min_pose_detection_confidence = float(args.min_pose_detection_confidence)
 min_pose_presence_confidence = float(args.min_pose_presence_confidence)
 min_tracking_confidence = float(args.min_tracking_confidence)
+
+landmark_save = [[] for i in range(num_poses)] # landmarks 저장 리스트 초기화
 
 # STEP 2: Create an PoseLandmarker object.
 # 포즈 랜드마커 객체를 생성
@@ -91,7 +93,13 @@ cap = cv2.VideoCapture(clip_name + ".mp4") # 비디오 캡처 객체 생성
 fps = cap.get(cv2.CAP_PROP_FPS) # 비디오의 FPS
 timestamp = 0
 fourcc = cv2.VideoWriter_fourcc(*'DIVX') # 비디오 코덱 설정
-out = cv2.VideoWriter(clip_name +'_pose.mp4', fourcc, fps, (640, 320))
+
+outvideo_path = clip_name.split('/')
+output_path = '\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:-1])
+if not os.path.exists(output_path):
+    os.makedirs(output_path)
+
+out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:]) + '_pose.mp4', fourcc, fps, (640, 720)) # 박스 크기 조절 필요 (resize 후)
  
 timestamp = 0
 while cap.isOpened():
@@ -102,7 +110,7 @@ while cap.isOpened():
       print("Video processing completed or error occurred")
       break  # 비디오가 끝나거나 읽기에 실패하면 반복문 종료 
 
-  resize_frame = cv2.resize(image, (640, 320), interpolation=cv2.INTER_CUBIC)
+  resize_frame = cv2.resize(image, (640, 720), interpolation=cv2.INTER_CUBIC) # 박스 크기 조절 필요 (resize 후)
   mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=resize_frame)
 
   # STEP 4: Detect pose landmarks from the input image.
@@ -135,4 +143,4 @@ for idx in range(num_poses):
 
     #엑셀 저장
     df = pd.DataFrame(arr, columns=joints)
-    df.to_excel(clip_name.split('\\')[-1] + "-" + str(idx + 1) + ".xlsx")
+    df.to_excel(clip_name.split('/')[-1] + "-" + str(idx + 1) + ".xlsx")

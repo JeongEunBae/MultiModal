@@ -3,6 +3,7 @@ import os
 import shutil
 import sys
 import cv2
+import tensorflow as tf
 import argparse
 from keras.models import load_model
 import pandas as pd
@@ -13,7 +14,7 @@ from utils.inference import draw_text
 from utils.inference import draw_bounding_box
 from utils.inference import apply_offsets
 from utils.inference import load_detection_model
-from utils.inference import load_image
+from tensorflow.keras.utils import load_img
 from utils.preprocessor import preprocess_input
 
 def most_frequent(List):
@@ -70,7 +71,7 @@ def process():
     timestamp = 0
     for image_path_, image_path in enumerate(images_list):
         # loading images
-        gray_image = load_image(image_path, grayscale=True)
+        gray_image = load_img(image_path, color_mode="grayscale")
         gray_image = np.squeeze(gray_image)
         gray_image = gray_image.astype('uint8')
 
@@ -107,16 +108,15 @@ import os
 if __name__ == "__main__":
     emotions_per_frame, emotion_labels, clip_name = process()
 
-    output_path = "../results/face_emotion/"
+    output_path = "D:/MultiModal/multi_modal/results/face/face_emotion/"
     if not os.path.exists(output_path):
         os.makedirs(output_path)
-    os.chdir(output_path)
 
-    output_file = clip_name.split('\\')[-1] + "_emotion_predictions.csv"
+    output_file = output_path + clip_name.split('/')[-1] + "_emotion_predictions.csv"
     file = open(output_file, 'w', encoding="utf-8", newline='')
     writer = csv.writer(file)
 
-    title  = [emotion_labels[idx] for idx in range(len(emotion_labels))]
+    title = [emotion_labels[idx] for idx in range(len(emotion_labels))]
     writer.writerow(["Timestamp"] + title)
 
     for line in emotions_per_frame:

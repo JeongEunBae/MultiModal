@@ -11,3 +11,4 @@ matplotlib
 imageio
 scikit-image
 openpyxl
+chardet

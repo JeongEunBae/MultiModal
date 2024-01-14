@@ -17,7 +17,7 @@ TEXT_COLOR = (255, 0, 0)  # red
 
 # 얼굴 랜드마크 좌표를 저장할 리스트 초기화 (6개점)
 # 최대 두 사람까지 데이터 저장 가능 (multi) -> 다만 현재는 1명 기준으로 코드화 되어있음. (2명일 경우 코드 수정 필요)
-landmark_save = [[], []] 
+landmark_save = [[], []]
 
 # 정규화된 좌표를 픽셀 좌표로 변환하는 함수
 def _normalized_to_pixel_coordinates(normalized_x: float, normalized_y: float, image_width: int, image_height: int) -> Union[None, Tuple[int, int]]:
@@ -57,7 +57,7 @@ def visualize(image, detection_result) -> np.ndarray:
     cv2.rectangle(annotated_image, start_point, end_point, TEXT_COLOR, 3)
 
     pose_landmarkers = pose_landmarker_list[idx]
-    pose = np.zeros(6 * 2)
+    pose = np.zeros(8 * 2)
     # Draw keypoints
     for i, keypoint in enumerate(pose_landmarkers.keypoints):
       keypoint_px = _normalized_to_pixel_coordinates(keypoint.x, keypoint.y,
@@ -67,6 +67,7 @@ def visualize(image, detection_result) -> np.ndarray:
 
       color, thickness, radius = (0, 255, 0), 2, 2
       cv2.circle(annotated_image, keypoint_px, thickness, color, radius)
+    pose[12], pose[13], pose[14], pose[15] = bbox.origin_x, bbox.origin_y, bbox.width, bbox.height # 박스 크기
     landmark_save[0].append(pose)
     # Draw label and score
 
@@ -107,20 +108,24 @@ cap = cv2.VideoCapture(clip_name + ".mp4")
 fps = cap.get(cv2.CAP_PROP_FPS)
 timestamp = 0
 fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-out = cv2.VideoWriter(clip_name + '_face.mp4', fourcc, fps, (640, 320))
+
+outvideo_path = clip_name.split('/')
+output_path = '\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:-1])
+if not os.path.exists(output_path):
+    os.makedirs(output_path)
+
+out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results"] + outvideo_path[4:]) + '_landmark.mp4', fourcc, fps, (640, 360))
 
 # 비디오 프레임 별 얼굴 Detection를 수행하는 반복문
-timestamp = 0
 while cap.isOpened():
   success, image = cap.read()
-  timestamp += 1
 
   if not success:
     print("Video processing completed or error occurred")
     break  # 비디오가 끝나거나 읽기에 실패하면 반복문 종료 
             
   # STEP 3: Load the input image.
-  resize_frame = cv2.resize(image, (640, 320), interpolation=cv2.INTER_CUBIC)
+  resize_frame = cv2.resize(image, (640, 360), interpolation=cv2.INTER_CUBIC)
   mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=resize_frame)
 
   # STEP 4: Detect faces in the input image.
@@ -139,14 +144,14 @@ arr = np.array(landmark_save[0])
 import pandas as pd
 face = pd.read_csv("face_point_name.csv",header=None).iloc[:,0].to_list()
 
-output_path = "../results/face/"
+output_path = "../../results/face/face_landmark"
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 os.chdir(output_path)
     
 # 탐지된 특징점 데이터를 엑셀 파일로 저장
 df = pd.DataFrame(arr, columns=face)
-df.to_excel(clip_name.split('\\')[-1] + ".xlsx")
+df.to_excel(clip_name.split('/')[-1] + ".xlsx")
 
 # 비디오 캡처와 출력 객체를 해제
 cap.release()
