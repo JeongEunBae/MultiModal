@@ -108,7 +108,7 @@ import os
 if __name__ == "__main__":
     emotions_per_frame, emotion_labels, clip_name = process()
 
-    output_path = f"D:/MultiModal/multi_modal/results/face/face_emotion/{clip_name.split('/')[5]}"
+    output_path = f"D:/MultiModal/MultiModal_Model/results/face/face_emotion/{clip_name.split('/')[5]}"
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
