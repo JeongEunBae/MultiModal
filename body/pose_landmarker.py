@@ -99,7 +99,7 @@ output_path = '\\'.join(outvideo_path[:3] + ["Data_Results", "Body"] + outvideo_
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 
-out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results", "Body"] + outvideo_path[5:]) + '_pose.mp4', fourcc, fps, (480, 560)) # 박스 크기 조절 필요 (resize 후)
+out = cv2.VideoWriter('\\'.join(outvideo_path[:3] + ["Data_Results", "Body"] + outvideo_path[5:]) + '_pose.mp4', fourcc, fps, (640, 720)) # 박스 크기 조절 필요 (resize 후)
  
 timestamp = 0
 while cap.isOpened():
@@ -110,7 +110,7 @@ while cap.isOpened():
       print("Video processing completed or error occurred")
       break  # 비디오가 끝나거나 읽기에 실패하면 반복문 종료 
 
-  resize_frame = cv2.resize(image, (480, 560), interpolation=cv2.INTER_CUBIC) # 박스 크기 조절 필요 (resize 후)
+  resize_frame = cv2.resize(image, (640, 720), interpolation=cv2.INTER_CUBIC) # 박스 크기 조절 필요 (resize 후)
   mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=resize_frame)
 
   # STEP 4: Detect pose landmarks from the input image.
